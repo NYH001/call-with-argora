@@ -1,8 +1,10 @@
-package com.nicholasnie.call_with_argora.Base;
+package com.nicholasnie.call_with_argora.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import com.nicholasnie.call_with_argora.Presenter.BasePresenter;
 
 /**
  * Created by NicholasNie on 2017/10/10.
