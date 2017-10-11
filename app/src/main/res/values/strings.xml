@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">call-with-argora</string>
+
+    <string name="agora_app_id">4a27ad9224e241679edb455122bdb265</string>
 </resources>
