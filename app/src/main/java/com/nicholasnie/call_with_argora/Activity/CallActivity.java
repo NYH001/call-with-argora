@@ -50,7 +50,7 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
             public void onClick(View v) {
                 Log.i(TAG,"Clicked!");
                 myId = etMyId.getText().toString();
-                basePresenter.login(myId);
+                basePresenter.loginOrOut(myId);
             }
         });
 

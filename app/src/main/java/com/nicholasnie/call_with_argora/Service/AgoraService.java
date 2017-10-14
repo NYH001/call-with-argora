@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.nicholasnie.call_with_argora.Presenter.CallPresenter;
 import com.nicholasnie.call_with_argora.R;
 
 import java.security.MessageDigest;
@@ -60,6 +61,10 @@ public class AgoraService extends Service {
         mAgoraAPI.login2(appID, this.myId, token, 0, "", 60, 5);
     }
 
+    public void logout(){
+        mAgoraAPI.logout();
+    }
+
     public void call(String peerId, String ChannelId){
 
     }
@@ -73,6 +78,7 @@ public class AgoraService extends Service {
             @Override
             public void onLoginSuccess(int uid, int fd) {
                 super.onLoginSuccess(uid, fd);
+                CallPresenter.isLogin = true;
                 Log.i(TAG,"Login Success");
             }
 
@@ -85,6 +91,8 @@ public class AgoraService extends Service {
             @Override
             public void onLogout(int ecode) {
                 super.onLogout(ecode);
+                CallPresenter.isLogin = false;
+                Log.i(TAG,"Logout Success");
             }
 
             @Override

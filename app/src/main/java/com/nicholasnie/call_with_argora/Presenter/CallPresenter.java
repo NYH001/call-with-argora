@@ -25,6 +25,8 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     private IView mView;
     private IModel mModel;
 
+    public static Boolean isLogin = false;
+
     private AgoraService mAgoraService;
     public ServiceConnection connection=  new ServiceConnection() {
         @Override
@@ -51,7 +53,11 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 
     }
 
-    public void login(String id){
-        mAgoraService.login(id);
+    public void loginOrOut(String id){
+        if(isLogin){
+            mAgoraService.logout();
+        }else {
+            mAgoraService.login(id);
+        }
     }
 }
