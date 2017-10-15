@@ -73,6 +73,7 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        basePresenter.hangUp(roomName);
         unbindService(basePresenter.connection);
     }
 }

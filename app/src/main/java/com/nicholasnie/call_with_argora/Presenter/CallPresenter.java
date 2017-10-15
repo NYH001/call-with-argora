@@ -62,4 +62,8 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     public void call(String peerId, String channelId){
         mAgoraService.call(peerId,channelId);
     }
+
+    public void hangUp(String channelId){
+        mAgoraService.hangUp(channelId);
+    }
 }

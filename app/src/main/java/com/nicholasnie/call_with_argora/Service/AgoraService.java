@@ -68,6 +68,11 @@ public class AgoraService extends Service {
 
     public void call(String peerId, String channelId){
         mAgoraAPI.channelInviteUser(channelId, peerId, 0);
+        mAgoraAPI.channelJoin(channelId);
+    }
+
+    public void hangUp(String channelId){
+        mAgoraAPI.channelLeave(channelId);
     }
 
     private void initAgora(){
@@ -104,31 +109,39 @@ public class AgoraService extends Service {
             @Override
             public void onChannelJoined(String channelID) {
                 super.onChannelJoined(channelID);
+                Log.i(TAG,"Jion "+ channelID + " success");
             }
 
             @Override
             public void onChannelJoinFailed(String channelID, int ecode) {
                 super.onChannelJoinFailed(channelID, ecode);
+                Log.i(TAG,"Jion "+ channelID + " failed");
             }
 
             @Override
             public void onChannelLeaved(String channelID, int ecode) {
                 super.onChannelLeaved(channelID, ecode);
+                Log.i(TAG,"leave "+ channelID);
             }
 
             @Override
             public void onInviteReceived(String channelID, String account, int uid, String extra) {
                 super.onInviteReceived(channelID, account, uid, extra);
+                Log.i(TAG,"Invite Received");
+                mAgoraAPI.channelJoin(channelID);
             }
 
             @Override
             public void onChannelUserJoined(String account, int uid) {
                 super.onChannelUserJoined(account, uid);
+                Log.i(TAG,account + " joined");
             }
 
             @Override
             public void onChannelUserLeaved(String account, int uid) {
                 super.onChannelUserLeaved(account, uid);
+                Log.i(TAG,account + " leaved");
+                mAgoraAPI.channelLeave("TestRoom");
             }
 
             @Override
