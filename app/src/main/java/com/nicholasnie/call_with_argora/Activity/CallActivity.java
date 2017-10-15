@@ -59,6 +59,7 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
             public void onClick(View v) {
                 myId = etMyId.getText().toString();
                 peerId = etPeerId.getText().toString();
+                basePresenter.call(peerId,roomName);
             }
         });
     }

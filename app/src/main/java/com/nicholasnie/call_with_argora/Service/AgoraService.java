@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.nicholasnie.call_with_argora.Presenter.CallPresenter;
-import com.nicholasnie.call_with_argora.R;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,9 +23,9 @@ import io.agora.rtc.RtcEngine;
 
 public class AgoraService extends Service {
 
-//    private final String appID = getString(R.string.agora_app_id);
+//    private final String appID = getApplicationContext().getString(R.string.agora_app_id);
     private final String appID = "4a27ad9224e241679edb455122bdb265";
-//    private final String appCertificate = getString(R.string.agora_app_certificate);
+//    private final String appCertificate = getApplicationContext().getString(R.string.agora_app_certificate);
     private final String appCertificate = "829b5f9b256d4d3580f5e6928bfcc204";
 
     private final String TAG = "NicholasNie";
@@ -35,6 +34,8 @@ public class AgoraService extends Service {
     private AgoraAPIOnlySignal mAgoraAPI;
 
     private String myId;
+
+    private boolean isLogin = false;
 
     @Nullable
     @Override
@@ -65,8 +66,8 @@ public class AgoraService extends Service {
         mAgoraAPI.logout();
     }
 
-    public void call(String peerId, String ChannelId){
-
+    public void call(String peerId, String channelId){
+        mAgoraAPI.channelInviteUser(channelId, peerId, 0);
     }
 
     private void initAgora(){
@@ -78,7 +79,7 @@ public class AgoraService extends Service {
             @Override
             public void onLoginSuccess(int uid, int fd) {
                 super.onLoginSuccess(uid, fd);
-                CallPresenter.isLogin = true;
+                setIsLogin(true);
                 Log.i(TAG,"Login Success");
             }
 
@@ -91,7 +92,7 @@ public class AgoraService extends Service {
             @Override
             public void onLogout(int ecode) {
                 super.onLogout(ecode);
-                CallPresenter.isLogin = false;
+                setIsLogin(false);
                 Log.i(TAG,"Logout Success");
             }
 
@@ -201,6 +202,13 @@ public class AgoraService extends Service {
             out[j++] = toDigits[0x0F & data[i]];
         }
         return String.valueOf(out);
+    }
 
+    public void setIsLogin(boolean isLogin){
+        this.isLogin = isLogin;
+    }
+
+    public boolean getIsLogin(){
+        return isLogin;
     }
 }
