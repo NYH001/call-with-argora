@@ -128,6 +128,7 @@ public class AgoraService extends Service {
             public void onInviteReceived(String channelID, String account, int uid, String extra) {
                 super.onInviteReceived(channelID, account, uid, extra);
                 Log.i(TAG,"Invite Received");
+                mAgoraAPI.channelInviteAccept(channelID,account,0);
                 mAgoraAPI.channelJoin(channelID);
             }
 
@@ -175,7 +176,8 @@ public class AgoraService extends Service {
             }
         });
 
-        mRtcEngine.enableAudioVolumeIndication(1000,3);
+//        mRtcEngine.enableAudioVolumeIndication(1000,3);
+        mRtcEngine.setEnableSpeakerphone(true);
     }
 
     private String calculateToken(){
