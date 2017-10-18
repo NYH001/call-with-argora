@@ -7,10 +7,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.nicholasnie.call_with_argora.Presenter.CallPresenter;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 import io.agora.AgoraAPI;
 import io.agora.AgoraAPIOnlySignal;
@@ -34,6 +33,8 @@ public class AgoraService extends Service {
     private AgoraAPIOnlySignal mAgoraAPI;
 
     private String myId;
+    private String channelId;
+    private int myUid;
 
     private boolean isLogin = false;
 
@@ -68,7 +69,8 @@ public class AgoraService extends Service {
 
     public void call(String peerId, String channelId){
         mAgoraAPI.channelInviteUser(channelId, peerId, 0);
-        mAgoraAPI.channelJoin(channelId);
+        this.channelId = channelId;
+        doJoin();
     }
 
     public void hangUp(String channelId){
@@ -84,6 +86,7 @@ public class AgoraService extends Service {
             @Override
             public void onLoginSuccess(int uid, int fd) {
                 super.onLoginSuccess(uid, fd);
+                myUid = uid;
                 setIsLogin(true);
                 Log.i(TAG,"Login Success");
             }
@@ -176,8 +179,11 @@ public class AgoraService extends Service {
             }
         });
 
-//        mRtcEngine.enableAudioVolumeIndication(1000,3);
+        mRtcEngine.enableAudioVolumeIndication(1000,3);
         mRtcEngine.setEnableSpeakerphone(true);
+        mRtcEngine.setSpeakerphoneVolume(255);
+        mRtcEngine.muteLocalAudioStream(false);
+        Log.i(TAG,"agora inited");
     }
 
     private String calculateToken(){
@@ -226,4 +232,40 @@ public class AgoraService extends Service {
     public boolean getIsLogin(){
         return isLogin;
     }
+
+    private void doJoin(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG,"join thread");
+                mAgoraAPI.channelJoin(channelId);
+                int ts = (int) (System.currentTimeMillis()/1000);
+                int r = new Random().nextInt();
+                String key = "";
+                try {
+                    key = DynamicKey4.generateMediaChannelKey(appID, appCertificate, channelId, ts, r, myUid, 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, myUid + "");
+                mRtcEngine.joinChannel(key, channelId, "", myUid);
+            }
+        }).start();
+    }
+
+    private void doLeave(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mAgoraAPI.channelLeave(channelId);
+                mRtcEngine.leaveChannel();
+            }
+        }).start();
+    }
+
 }
