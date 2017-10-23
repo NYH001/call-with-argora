@@ -30,6 +30,8 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
 
     private Button btnCall;
     private Button btnLogin;
+    private Button btnLogout;
+    private Button btnHangUp;
     private EditText etMyId;
     private EditText etPeerId;
 
@@ -47,6 +49,8 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
     void initView() {
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnCall = (Button) findViewById(R.id.btn_test);
+        btnLogout = (Button) findViewById(R.id.btn_logout);
+        btnHangUp = (Button) findViewById(R.id.btn_hangUp);
         etMyId = (EditText) findViewById(R.id.et_myId);
         etPeerId = (EditText) findViewById(R.id.et_peerId);
 
@@ -55,7 +59,15 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
             public void onClick(View v) {
                 Log.i(TAG,"Clicked!");
                 myId = etMyId.getText().toString();
-                basePresenter.loginOrOut(myId);
+//                basePresenter.loginOrOut(myId);
+                basePresenter.login(myId);
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                basePresenter.logout();
             }
         });
 
@@ -65,6 +77,13 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
                 myId = etMyId.getText().toString();
                 peerId = etPeerId.getText().toString();
                 basePresenter.call(peerId,roomName);
+            }
+        });
+
+        btnHangUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                basePresenter.hangUp();
             }
         });
     }
@@ -82,7 +101,7 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        basePresenter.hangUp(roomName);
+//        basePresenter.hangUp();
         unbindService(basePresenter.connection);
     }
 

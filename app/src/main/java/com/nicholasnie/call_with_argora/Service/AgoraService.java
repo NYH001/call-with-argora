@@ -77,13 +77,24 @@ public class AgoraService extends Service {
         doJoin();
     }
 
-    public void hangUp(String channelId){
-        mAgoraAPI.channelLeave(channelId);
+    public void hangUp(){
+        doLeave();
     }
 
     private void initAgora(){
         mAgoraAPI = AgoraAPIOnlySignal.getInstance(this,appID);
         mRtcEngine = RtcEngine.create(this, appID, new IRtcEngineEventHandler() {
+            @Override
+            public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+                super.onJoinChannelSuccess(channel, uid, elapsed);
+                Log.i(TAG,"Join engine room success");
+            }
+
+            @Override
+            public void onLeaveChannel(RtcStats stats) {
+                super.onLeaveChannel(stats);
+                Log.i(TAG,"Leave engine room success");
+            }
         });
 
         mAgoraAPI.callbackSet(new AgoraAPI.CallBack(){
@@ -136,7 +147,9 @@ public class AgoraService extends Service {
                 super.onInviteReceived(channelID, account, uid, extra);
                 Log.i(TAG,"Invite Received");
                 mAgoraAPI.channelInviteAccept(channelID,account,0);
-                mAgoraAPI.channelJoin(channelID);
+//                mAgoraAPI.channelJoin(channelID);
+                channelId = channelID;
+                doJoin();
             }
 
             @Override
@@ -149,7 +162,8 @@ public class AgoraService extends Service {
             public void onChannelUserLeaved(String account, int uid) {
                 super.onChannelUserLeaved(account, uid);
                 Log.i(TAG,account + " leaved");
-                mAgoraAPI.channelLeave("TestRoom");
+//                mAgoraAPI.channelLeave("TestRoom");
+                doLeave();
             }
 
             @Override
@@ -238,7 +252,26 @@ public class AgoraService extends Service {
     }
 
     private void doJoin(){
-        myActivity.runOnUiThread(new Runnable() {
+//        myActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mAgoraAPI.channelJoin(channelId);
+//                String key = appID;
+//                if (enableMediaCertificate){
+//                    int ts = (int) (System.currentTimeMillis()/1000);
+//                    int r = new Random().nextInt();
+//                    long uid = myUid;
+//                    int expiredTs = 0;
+//                    try {
+//                        key = DynamicKey4.generateMediaChannelKey(appID, appCertificate, channelId, ts, r, uid, expiredTs);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                mRtcEngine.joinChannel(key, channelId, "", myUid);
+//            }
+//        });
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 mAgoraAPI.channelJoin(channelId);
@@ -256,17 +289,24 @@ public class AgoraService extends Service {
                 }
                 mRtcEngine.joinChannel(key, channelId, "", myUid);
             }
-        });
+        }).start();
     }
 
     private void doLeave(){
-        myActivity.runOnUiThread(new Runnable() {
+//        myActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mAgoraAPI.channelLeave(channelId);
+//                mRtcEngine.leaveChannel();
+//            }
+//        });
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 mAgoraAPI.channelLeave(channelId);
                 mRtcEngine.leaveChannel();
             }
-        });
+        }).start();
     }
 
 }
