@@ -1,6 +1,7 @@
 package com.nicholasnie.call_with_argora.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -83,5 +84,10 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
         super.onDestroy();
         basePresenter.hangUp(roomName);
         unbindService(basePresenter.connection);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }

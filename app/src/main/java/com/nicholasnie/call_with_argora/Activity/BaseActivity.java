@@ -30,4 +30,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends Activity {
     abstract void initView();
 
     abstract void onPrepare();
+
+//    public abstract Activity getActivity();
 }

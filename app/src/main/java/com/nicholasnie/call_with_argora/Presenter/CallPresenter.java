@@ -1,5 +1,6 @@
 package com.nicholasnie.call_with_argora.Presenter;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -60,7 +61,7 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     }
 
     public void call(String peerId, String channelId){
-        mAgoraService.call(peerId,channelId);
+        mAgoraService.call(peerId,channelId,mView.getActivity());
     }
 
     public void hangUp(String channelId){

@@ -1,5 +1,6 @@
 package com.nicholasnie.call_with_argora.Service;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -35,8 +36,10 @@ public class AgoraService extends Service {
     private String myId;
     private String channelId;
     private int myUid;
+    private Activity myActivity;
 
     private boolean isLogin = false;
+    private boolean enableMediaCertificate = true;
 
     @Nullable
     @Override
@@ -67,9 +70,10 @@ public class AgoraService extends Service {
         mAgoraAPI.logout();
     }
 
-    public void call(String peerId, String channelId){
+    public void call(String peerId, String channelId, Activity activity){
         mAgoraAPI.channelInviteUser(channelId, peerId, 0);
         this.channelId = channelId;
+        this.myActivity = activity;
         doJoin();
     }
 
@@ -234,38 +238,35 @@ public class AgoraService extends Service {
     }
 
     private void doJoin(){
-        new Thread(new Runnable() {
+        myActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG,"join thread");
                 mAgoraAPI.channelJoin(channelId);
-                int ts = (int) (System.currentTimeMillis()/1000);
-                int r = new Random().nextInt();
-                String key = "";
-                try {
-                    key = DynamicKey4.generateMediaChannelKey(appID, appCertificate, channelId, ts, r, myUid, 0);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                String key = appID;
+                if (enableMediaCertificate){
+                    int ts = (int) (System.currentTimeMillis()/1000);
+                    int r = new Random().nextInt();
+                    long uid = myUid;
+                    int expiredTs = 0;
+                    try {
+                        key = DynamicKey4.generateMediaChannelKey(appID, appCertificate, channelId, ts, r, uid, expiredTs);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.i(TAG, myUid + "");
                 mRtcEngine.joinChannel(key, channelId, "", myUid);
             }
-        }).start();
+        });
     }
 
     private void doLeave(){
-        new Thread(new Runnable() {
+        myActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mAgoraAPI.channelLeave(channelId);
                 mRtcEngine.leaveChannel();
             }
-        }).start();
+        });
     }
 
 }
