@@ -23,8 +23,8 @@ import static android.R.attr.name;
 public class CallPresenter extends BasePresenter<CallActivity> implements IPresenter {
     private final String TAG = "NicholasNie";
 
-    private IView mView;
-    private IModel mModel;
+//    private IView mView;
+//    private IModel mModel;
 
     private AgoraService mAgoraService;
     public ServiceConnection connection=  new ServiceConnection() {
@@ -42,8 +42,8 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     };
 
     public CallPresenter(IView iView){
-        this.mView = iView;
-        this.mModel = new UserModel();
+        mView = iView;
+        mModel = new UserModel();
         initData();
     }
 
@@ -52,13 +52,13 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 
     }
 
-    public void loginOrOut(String id){
-        if(mAgoraService.getIsLogin()){
-            mAgoraService.logout();
-        }else {
-            mAgoraService.login(id);
-        }
-    }
+//    public void loginOrOut(String id){
+//        if(mAgoraService.getIsLogin()){
+//            mAgoraService.logout();
+//        }else {
+//            mAgoraService.login(id);
+//        }
+//    }
 
     public void login(String id){
         mAgoraService.login(id);
