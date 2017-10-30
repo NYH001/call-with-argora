@@ -1,6 +1,7 @@
 package com.nicholasnie.call_with_argora.Model;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -44,5 +45,24 @@ public class DatabaseModel extends SQLiteOpenHelper implements IModel {
 
     private void initDatabase() {
         db = SQLiteDatabase.openOrCreateDatabase(context.getFilesDir().getAbsolutePath() + "/databases/user.db",null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS user (userid integer primary key autoincrement, username varchar(20))");
+    }
+
+    @Override
+    public void add(String tableName, Object[] args) {
+        String sql = "";
+        switch (tableName){
+            case "user":
+                sql = "insert into user(username) values(?)";
+                break;
+            default:
+                break;
+        }
+        db.execSQL(sql, args);
+    }
+
+    @Override
+    public Cursor query(String tableName, String[] args) {
+        return null;
     }
 }
