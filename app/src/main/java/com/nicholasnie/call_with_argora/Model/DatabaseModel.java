@@ -65,4 +65,10 @@ public class DatabaseModel extends SQLiteOpenHelper implements IModel {
 //    public Cursor query(String tableName, String[] args) {
 //        return null;
 //    }
+
+
+    @Override
+    public UserModel getModel() {
+        return null;
+    }
 }

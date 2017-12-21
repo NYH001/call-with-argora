@@ -15,7 +15,7 @@ public abstract class BaseModel extends SQLiteOpenHelper {
         super(context, databaseName, cursorFactory, version);
     }
 
-    protected String tableName;
+//    protected String tableName;
     protected SQLiteDatabase database;
     protected static Context mContext;
 
@@ -23,6 +23,6 @@ public abstract class BaseModel extends SQLiteOpenHelper {
     protected final static int version = 1;
 
     abstract void initDatabase();
-    abstract void add(ContentValues contentValues);
-    abstract Cursor query(String[] colNames, String conditions, String[] colValues);
+    public abstract void add(String tableName, ContentValues contentValues);
+    public abstract Cursor query(String tableName, String[] colNames, String conditions, String[] colValues);
 }

@@ -27,7 +27,7 @@ public class UserModel extends BaseModel implements IModel {
     }
 
     //@Override
-    public static IModel getInstance(Context context) {
+    public static UserModel getInstance(Context context) {
         mContext = context;
         if(null == instance){
             instance = new UserModel(context);
@@ -47,22 +47,28 @@ public class UserModel extends BaseModel implements IModel {
 
     @Override
     void initDatabase() {
-        tableName = "user";
+//        tableName = "user";
         database = getReadableDatabase();
         database.execSQL("CREATE TABLE IF NOT EXISTS user (userId integer primary key autoincrement, username varchar(20))");
+        database.execSQL("CREATE TABLE IF NOT EXISTS friend (userId integer, friendName varchar(20))");
         Log.i(TAG, "initDatabase of UserModel");
     }
 
     @Override
-    void add(ContentValues contentValues) {
+    public void add(String tableName, ContentValues contentValues) {
         Log.i(TAG, "Add of UserModel");
         database.insert("user", null, contentValues);
     }
 
     @Override
-    Cursor query(String[] colNames, String conditions, String[] colValues) {
+    public Cursor query(String table, String[] colNames, String conditions, String[] colValues) {
         Cursor cursor = database.query("user", colNames, conditions, colValues, null, null, null);
         Log.i(TAG,"Query of UserModel");
         return cursor;
+    }
+
+    @Override
+    public UserModel getModel() {
+        return this;
     }
 }
