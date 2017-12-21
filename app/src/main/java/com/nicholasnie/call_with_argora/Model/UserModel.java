@@ -49,7 +49,7 @@ public class UserModel extends BaseModel implements IModel {
     void initDatabase() {
 //        tableName = "user";
         database = getReadableDatabase();
-        database.execSQL("CREATE TABLE IF NOT EXISTS user (userId integer primary key autoincrement, username varchar(20))");
+        database.execSQL("CREATE TABLE IF NOT EXISTS user (userId integer primary key autoincrement, userName varchar(20))");
         database.execSQL("CREATE TABLE IF NOT EXISTS friend (userId integer, friendName varchar(20))");
         Log.i(TAG, "initDatabase of UserModel");
     }

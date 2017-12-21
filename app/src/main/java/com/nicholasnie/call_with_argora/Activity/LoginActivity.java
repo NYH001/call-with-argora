@@ -51,6 +51,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements IView
 
     @Override
     public Activity getActivity() {
-        return null;
+        return this;
     }
 }
