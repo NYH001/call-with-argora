@@ -8,7 +8,7 @@ import android.database.Cursor;
  */
 
 public interface IModel {
-    public IModel getInstance(Context context);
-    public void add(String tableName, Object[] args);
-    public Cursor query(String tableName, String[] args);
+//    public IModel getInstance(Context context);
+//    public void add(String tableName, Object[] args);
+//    public Cursor query(String tableName, String[] args);
 }

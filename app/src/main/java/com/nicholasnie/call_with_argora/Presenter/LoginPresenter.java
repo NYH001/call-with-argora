@@ -13,7 +13,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements IPre
 
     public LoginPresenter(IView iView) {
         mView = iView;
-        mModel = new UserModel();
+        mModel = UserModel.getInstance(iView.getActivity().getApplicationContext());
     }
 
     @Override

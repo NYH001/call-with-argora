@@ -43,7 +43,7 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 
     public CallPresenter(IView iView){
         mView = iView;
-        mModel = new UserModel();
+        mModel = UserModel.getInstance(iView.getActivity().getApplicationContext());
         initData();
     }
 
