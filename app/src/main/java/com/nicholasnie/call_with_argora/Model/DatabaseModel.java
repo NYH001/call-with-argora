@@ -48,27 +48,9 @@ public class DatabaseModel extends SQLiteOpenHelper implements IModel {
         db.execSQL("CREATE TABLE IF NOT EXISTS user (userid integer primary key autoincrement, username varchar(20))");
     }
 
-//    @Override
-//    public void add(String tableName, Object[] args) {
-//        String sql = "";
-//        switch (tableName){
-//            case "user":
-//                sql = "insert into user(username) values(?)";
-//                break;
-//            default:
-//                break;
-//        }
-//        db.execSQL(sql, args);
-//    }
-
-//    @Override
-//    public Cursor query(String tableName, String[] args) {
-//        return null;
-//    }
-
 
     @Override
-    public UserModel getModel() {
+    public BaseModel getModel() {
         return null;
     }
 }

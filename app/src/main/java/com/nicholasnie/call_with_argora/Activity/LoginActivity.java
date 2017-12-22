@@ -38,7 +38,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements IView
             @Override
             public void onClick(View v) {
                 basePresenter.LoginOrSignUp(etUserId.getText().toString().trim());
-                ActivityManager.startActivity(getApplicationContext(),new CallActivity());
+                ActivityManager activityManager = ActivityManager.getInstance();
+                activityManager.startActivity(getApplicationContext(),new CallActivity());
                 finish();
             }
         });

@@ -68,7 +68,7 @@ public class UserModel extends BaseModel implements IModel {
     }
 
     @Override
-    public UserModel getModel() {
+    public BaseModel getModel() {
         return this;
     }
 }

@@ -15,5 +15,5 @@ public interface IModel {
 //    public void add(String tableName, Object[] args);
 //    public Cursor query(String tableName, String[] args);
 
-    public UserModel getModel();
+    public BaseModel getModel();
 }

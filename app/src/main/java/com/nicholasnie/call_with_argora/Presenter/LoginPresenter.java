@@ -5,8 +5,10 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.nicholasnie.call_with_argora.Activity.LoginActivity;
+import com.nicholasnie.call_with_argora.App.ActivityManager;
 import com.nicholasnie.call_with_argora.Base.IPresenter;
 import com.nicholasnie.call_with_argora.Base.IView;
+import com.nicholasnie.call_with_argora.Model.BaseModel;
 import com.nicholasnie.call_with_argora.Model.UserModel;
 
 /**
@@ -16,7 +18,7 @@ import com.nicholasnie.call_with_argora.Model.UserModel;
 public class LoginPresenter extends BasePresenter<LoginActivity> implements IPresenter {
     private final String TAG = "NicholasNie";
 
-    private UserModel model;
+    private BaseModel model;
 
     public LoginPresenter(IView iView) {
         mView = iView;
@@ -44,12 +46,18 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements IPre
                 }
                 cursor.moveToNext();
             }
-            if (i == cursor.getCount() - 1) {
+            if (i == cursor.getCount()) {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("userName", userId);
                 model.add("user", contentValues);
             }
         }
-        Log.i(TAG,cursor.getCount()+"");
+        Log.i(TAG,"user count: " + cursor.getCount());
+        cursor = model.query("user",new String[]{"userId"},"userName=?",new String[]{userId});
+        cursor.moveToFirst();
+        int id = cursor.getInt(cursor.getColumnIndex("userId"));
+        Log.i(TAG,"user Id: " + id);
+        ActivityManager activityManager = ActivityManager.getInstance();
+        activityManager.putExtra("userId",id);
     }
 }
