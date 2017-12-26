@@ -1,6 +1,7 @@
 package com.nicholasnie.call_with_argora.Activity;
 
 import android.app.Activity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,23 +27,23 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements IView
 
     @Override
     int getLayout() {
-        return R.layout.conversation_activity;
+        return R.layout.login_activity;
     }
 
     @Override
     void initView() {
-//        btnLogin = (Button) findViewById(R.id.btn_login1);
-//        etUserId = (EditText) findViewById(R.id.et_userId);
-//
-//        btnLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                basePresenter.LoginOrSignUp(etUserId.getText().toString().trim());
-//                ActivityManager activityManager = ActivityManager.getInstance();
-//                activityManager.startActivity(getApplicationContext(),new CallActivity());
-//                finish();
-//            }
-//        });
+        btnLogin = (Button) findViewById(R.id.btn_login1);
+        etUserId = (EditText) findViewById(R.id.et_userId);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                basePresenter.LoginOrSignUp(etUserId.getText().toString().trim());
+                ActivityManager activityManager = ActivityManager.getInstance();
+                activityManager.startActivity(getApplicationContext(),new CallActivity());
+                finish();
+            }
+        });
     }
 
     @Override

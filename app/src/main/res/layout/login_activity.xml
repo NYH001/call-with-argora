@@ -27,7 +27,10 @@
             android:layout_width="@dimen/x730"
             android:layout_height="@dimen/y150"
             android:id="@+id/et_userId"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
         <TextView
             android:layout_width="@dimen/x100"

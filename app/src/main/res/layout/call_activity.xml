@@ -28,7 +28,10 @@
             android:layout_height="match_parent"
             android:id="@+id/et_peerId"
             android:textSize="20dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
         <TextView
             android:layout_width="@dimen/x25"
