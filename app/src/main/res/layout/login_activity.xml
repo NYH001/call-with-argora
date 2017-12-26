@@ -4,30 +4,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y600" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ID："
-            android:textSize="30dp"/>
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/y150" />
+
+        <TextView
+            android:layout_width="@dimen/x150"
+            android:layout_height="@dimen/y150"
+            android:text="ID"
+            android:textSize="25dp"/>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/x730"
+            android:layout_height="@dimen/y150"
             android:id="@+id/et_userId"
-            android:textSize="25dp"/>
+            android:textSize="30dp"/>
+
+        <TextView
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/y150"/>
 
     </LinearLayout>
 
-    <Button
+    <TextView
         android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"/>
+
+    <Button
+        android:layout_width="@dimen/x500"
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="30dp"
-        android:id="@+id/btn_login1"/>
+        android:id="@+id/btn_login1"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

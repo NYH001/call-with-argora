@@ -4,6 +4,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y75" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/y120" />
+        
+        <TextView
+            android:layout_width="@dimen/x175"
+            android:layout_height="@dimen/y120"
+            android:text="PeerID"
+            android:textSize="20dp" />
+
+        <EditText
+            android:layout_width="@dimen/x500"
+            android:layout_height="match_parent"
+            android:id="@+id/et_peerId"
+            android:textSize="20dp"
+            android:layout_gravity="bottom"/>
+
+        <TextView
+            android:layout_width="@dimen/x25"
+            android:layout_height="@dimen/y120" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/y120"
+            android:text="call"
+            android:id="@+id/btn_test"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y25" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/y100" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y100"
+            android:text="Friends"
+            android:textSize="20dp"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y25" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="@dimen/x980"
+        android:layout_height="@dimen/y1700"
+        android:id="@+id/rv_friendName"
+        android:background="#bfbfbf"
+        android:layout_gravity="center_horizontal">
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y25" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/btn_logout"
+        android:layout_gravity="center_horizontal"/>
+
+    <!--                                                                -->
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,24 +99,6 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/btn_login"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/btn_logout"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Your Peer's ID"
-        android:id="@+id/et_peerId"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="call"
-        android:id="@+id/btn_test"/>
 
     <Button
         android:layout_width="wrap_content"
