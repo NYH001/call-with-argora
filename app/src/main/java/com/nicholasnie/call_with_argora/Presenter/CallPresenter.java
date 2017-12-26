@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.nicholasnie.call_with_argora.Activity.CallActivity;
+import com.nicholasnie.call_with_argora.App.ActivityManager;
 import com.nicholasnie.call_with_argora.Base.IModel;
 import com.nicholasnie.call_with_argora.Base.IPresenter;
 import com.nicholasnie.call_with_argora.Base.IView;
+import com.nicholasnie.call_with_argora.Model.BaseModel;
 import com.nicholasnie.call_with_argora.Model.UserModel;
 import com.nicholasnie.call_with_argora.Service.AgoraService;
 
@@ -26,12 +29,16 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 //    private IView mView;
 //    private IModel mModel;
 
+    private String myId;
+    private BaseModel model;
+
     private AgoraService mAgoraService;
     public ServiceConnection connection=  new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mAgoraService = ((AgoraService.AgoraBinder) service).getService();
             Log.i(TAG, "Service Connected!");
+            login(myId);
         }
 
         @Override
@@ -44,12 +51,14 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     public CallPresenter(IView iView){
         mView = iView;
         mModel = UserModel.getInstance(iView.getActivity().getApplicationContext());
+        model = mModel.getModel();
         initData();
     }
 
     @Override
     void initData() {
-
+        myId = getId();
+//        login(myId);
     }
 
 //    public void loginOrOut(String id){
@@ -59,6 +68,17 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 //            mAgoraService.login(id);
 //        }
 //    }
+
+    public String getId(){
+        String string = "";
+        ActivityManager activityManager = ActivityManager.getInstance();
+        int id = activityManager.getInt("userId");
+        Cursor cursor = model.query("user", new String[]{"userName"},"userId=?",new String[]{id+""});
+        cursor.moveToFirst();
+        string = cursor.getString(cursor.getColumnIndex("userName"));
+        Log.i(TAG,"User Name: " + string);
+        return string;
+    }
 
     public void login(String id){
         mAgoraService.login(id);

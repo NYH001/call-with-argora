@@ -2,9 +2,11 @@ package com.nicholasnie.call_with_argora.Activity;
 
 import android.app.Activity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nicholasnie.call_with_argora.App.ActivityManager;
 import com.nicholasnie.call_with_argora.Base.IView;
@@ -16,6 +18,8 @@ import com.nicholasnie.call_with_argora.R;
  */
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements IView {
+
+    private final static String TAG = "NicholasNie";
 
     private Button btnLogin;
     private EditText etUserId;
@@ -38,10 +42,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements IView
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.LoginOrSignUp(etUserId.getText().toString().trim());
-                ActivityManager activityManager = ActivityManager.getInstance();
-                activityManager.startActivity(getApplicationContext(),new CallActivity());
-                finish();
+                String string = etUserId.getText().toString();
+                Log.i(TAG,"what we get here is: " + string);
+                if(!string.isEmpty()) {
+                    basePresenter.LoginOrSignUp(string);
+                    ActivityManager activityManager = ActivityManager.getInstance();
+                    activityManager.startActivity(getApplicationContext(), new CallActivity());
+                    finish();
+                }else {
+                    Toast.makeText(LoginActivity.this,"Please Enter Your User Name!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -25,14 +25,14 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
     private final String TAG = "NicholasNie";
     private final int AUDIO_REQUEST_CODE = 1;
     private final String roomName = "TestRoom";
-    private String myId;
+//    private String myId;
     private String peerId;
 
     private Button btnCall;
-    private Button btnLogin;
+//    private Button btnLogin;
     private Button btnLogout;
-    private Button btnHangUp;
-    private EditText etMyId;
+//    private Button btnHangUp;
+//    private EditText etMyId;
     private EditText etPeerId;
 
     @Override
@@ -47,22 +47,22 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
 
     @Override
     void initView() {
-        btnLogin = (Button) findViewById(R.id.btn_login);
+//        btnLogin = (Button) findViewById(R.id.btn_login);
         btnCall = (Button) findViewById(R.id.btn_test);
         btnLogout = (Button) findViewById(R.id.btn_logout);
-        btnHangUp = (Button) findViewById(R.id.btn_hangUp);
-        etMyId = (EditText) findViewById(R.id.et_myId);
+//        btnHangUp = (Button) findViewById(R.id.btn_hangUp);
+//        etMyId = (EditText) findViewById(R.id.et_myId);
         etPeerId = (EditText) findViewById(R.id.et_peerId);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG,"Clicked!");
-                myId = etMyId.getText().toString();
-//                basePresenter.loginOrOut(myId);
-                basePresenter.login(myId);
-            }
-        });
+//        btnLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.i(TAG,"Clicked!");
+//                myId = etMyId.getText().toString();
+////                basePresenter.loginOrOut(myId);
+//                basePresenter.login(myId);
+//            }
+//        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,18 +74,18 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myId = etMyId.getText().toString();
+//                myId = etMyId.getText().toString();
                 peerId = etPeerId.getText().toString();
                 basePresenter.call(peerId,roomName);
             }
         });
 
-        btnHangUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                basePresenter.hangUp();
-            }
-        });
+//        btnHangUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                basePresenter.hangUp();
+//            }
+//        });
     }
 
     @Override
@@ -96,6 +96,9 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},AUDIO_REQUEST_CODE);
         }
+
+//        myId = basePresenter.getId();
+//        basePresenter.login(myId);
     }
 
     @Override
