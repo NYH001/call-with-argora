@@ -69,4 +69,8 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.ViewHolder> {
     public void setOnItemClickListener(OnItemClickListener mOnItemClickListener){
         this.mOnItemClickListener = mOnItemClickListener;
     }
+
+    public String getText(int position){
+        return mDatas.get(position);
+    }
 }

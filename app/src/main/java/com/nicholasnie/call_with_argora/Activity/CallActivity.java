@@ -92,6 +92,13 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
         rvFriendName.setAdapter(nameAdapter);
         Log.i(TAG,"Name count:   " + nameAdapter.getItemCount());
 
+        nameAdapter.setOnItemClickListener(new NameAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                etPeerId.setText(nameAdapter.getText(position));
+            }
+        });
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},AUDIO_REQUEST_CODE);
         }

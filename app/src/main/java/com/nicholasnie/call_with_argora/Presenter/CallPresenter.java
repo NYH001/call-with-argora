@@ -97,7 +97,7 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 
     public void call(String peerId, String channelId){
         for(int i = 0; i < friendNames.size(); i++){
-            if( peerId == friendNames.get(i)){
+            if( peerId.equals(friendNames.get(i))){
                 return;
             }
         }
