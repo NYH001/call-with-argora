@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.nicholasnie.call_with_argora.App.ActivityManager;
 import com.nicholasnie.call_with_argora.Base.IView;
 import com.nicholasnie.call_with_argora.Presenter.CallPresenter;
 import com.nicholasnie.call_with_argora.R;
@@ -76,7 +77,10 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
             public void onClick(View v) {
 //                myId = etMyId.getText().toString();
                 peerId = etPeerId.getText().toString();
-                basePresenter.call(peerId,roomName);
+//                basePresenter.call(peerId,roomName);
+                ActivityManager activityManager = ActivityManager.getInstance();
+                activityManager.putExtra("peerName",peerId);
+                activityManager.startActivity(getApplicationContext(),new ConversationActivity());
             }
         });
 

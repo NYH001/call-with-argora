@@ -45,11 +45,13 @@ public class AgoraService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         initAgora();
+        Log.i(TAG,"OnBind");
         return new AgoraBinder();
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
+        Log.i(TAG,"OnUnbind");
         return super.onUnbind(intent);
     }
 

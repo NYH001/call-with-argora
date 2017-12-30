@@ -68,4 +68,16 @@ public class ActivityManager {
         Log.i(TAG,"the Int is:  " + value);
         return value;
     }
+
+    public String getString(String key){
+        String str = "";
+        Object objectString = extraInfo.get(key);
+        if (null == objectString){
+
+        }else {
+            str = objectString.toString();
+        }
+        Log.i(TAG,"the String is:  " + str);
+        return str;
+    }
 }

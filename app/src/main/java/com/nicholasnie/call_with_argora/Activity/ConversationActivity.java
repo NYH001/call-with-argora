@@ -1,6 +1,8 @@
 package com.nicholasnie.call_with_argora.Activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import com.nicholasnie.call_with_argora.Base.IView;
 import com.nicholasnie.call_with_argora.Presenter.ConversationPresenter;
 import com.nicholasnie.call_with_argora.R;
+import com.nicholasnie.call_with_argora.Service.AgoraService;
 
 /**
  * Created by NicholasNie on 2017/12/28.
@@ -52,7 +55,8 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
 
     @Override
     void onPrepare() {
-
+        Intent intent = new Intent(this,AgoraService.class);
+        bindService(intent,basePresenter.connection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -79,5 +83,11 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(basePresenter.connection);
+        super.onDestroy();
     }
 }
