@@ -80,4 +80,16 @@ public class ActivityManager {
         Log.i(TAG,"the String is:  " + str);
         return str;
     }
+
+    public boolean getBoolean(String key){
+        boolean bool = false;
+        Object objectString = extraInfo.get(key);
+        if (null == objectString){
+
+        }else {
+            bool = Boolean.parseBoolean(objectString.toString());
+        }
+        Log.i(TAG,"the Boolean is:  " + bool);
+        return bool;
+    }
 }

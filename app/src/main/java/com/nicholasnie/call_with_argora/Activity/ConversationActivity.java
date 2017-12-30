@@ -3,10 +3,12 @@ package com.nicholasnie.call_with_argora.Activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.nicholasnie.call_with_argora.App.ActivityManager;
 import com.nicholasnie.call_with_argora.Base.IView;
 import com.nicholasnie.call_with_argora.Presenter.ConversationPresenter;
 import com.nicholasnie.call_with_argora.R;
@@ -27,8 +29,9 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
 
     public void setHost(boolean b){
         this.isHost = b;
-        setBtnAnswerText(b);
-        setBtnRejectText(b);
+        Log.i(TAG,"setHost");
+//        setBtnAnswerText(b);
+//        setBtnRejectText(b);
     }
 
     private void setBtnAnswerText(boolean b){
@@ -64,6 +67,13 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
         tvPeerName = (TextView)findViewById(R.id.tv_peerName);
         btnAnswer = (Button)findViewById(R.id.btn_answer);
         btnReject = (Button)findViewById(R.id.btn_reject);
+
+        ActivityManager activityManager = ActivityManager.getInstance();
+
+        setHost(activityManager.getBoolean("isHost"));
+
+        setBtnRejectText(isHost);
+        setBtnAnswerText(isHost);
 
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override

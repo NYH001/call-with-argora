@@ -57,13 +57,13 @@ public class UserModel extends BaseModel implements IModel {
     @Override
     public void add(String tableName, ContentValues contentValues) {
         Log.i(TAG, "Add of UserModel");
-        database.insert("user", null, contentValues);
+        database.insert(tableName, null, contentValues);
     }
 
     @Override
     public Cursor query(String table, String[] colNames, String conditions, String[] colValues) {
-        Cursor cursor = database.query("user", colNames, conditions, colValues, null, null, null);
-        Log.i(TAG,"Query of UserModel");
+        Cursor cursor = database.query(table, colNames, conditions, colValues, null, null, null);
+        Log.i(TAG,"Query of UserModel size = "+ table + "    " + cursor.getCount() );
         return cursor;
     }
 

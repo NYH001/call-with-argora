@@ -1,5 +1,6 @@
 package com.nicholasnie.call_with_argora.Service;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,11 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
     private List<String> mDatas;
+
+    public NameAdapter(Context context, List<String> datas){
+        mInflater = LayoutInflater.from(context);
+        mDatas = datas;
+    }
 
     @Override
     public int getItemCount() {

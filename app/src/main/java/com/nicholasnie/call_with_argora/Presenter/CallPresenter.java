@@ -2,6 +2,7 @@ package com.nicholasnie.call_with_argora.Presenter;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
@@ -17,6 +18,9 @@ import com.nicholasnie.call_with_argora.Model.BaseModel;
 import com.nicholasnie.call_with_argora.Model.UserModel;
 import com.nicholasnie.call_with_argora.Service.AgoraService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.R.attr.name;
 
 /**
@@ -30,7 +34,9 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
 //    private IModel mModel;
 
     private String myId;
+    private int intId;
     private BaseModel model;
+    private List<String> friendNames;
 
     private AgoraService mAgoraService;
     public ServiceConnection connection=  new ServiceConnection() {
@@ -73,6 +79,7 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
         String string = "";
         ActivityManager activityManager = ActivityManager.getInstance();
         int id = activityManager.getInt("userId");
+        intId = id;
         Cursor cursor = model.query("user", new String[]{"userName"},"userId=?",new String[]{id+""});
         cursor.moveToFirst();
         string = cursor.getString(cursor.getColumnIndex("userName"));
@@ -89,10 +96,34 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     }
 
     public void call(String peerId, String channelId){
-        mAgoraService.call(peerId,channelId,mView.getActivity());
+        for(int i = 0; i < friendNames.size(); i++){
+            if( peerId == friendNames.get(i)){
+                return;
+            }
+        }
+        Log.i(TAG,"add friend     " + peerId);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("userId",intId);
+        contentValues.put("friendName",peerId);
+        model.add("friend",contentValues);
+
+ //       mAgoraService.call(peerId,channelId,mView.getActivity());
     }
 
     public void hangUp(){
         mAgoraService.hangUp();
+    }
+
+    public List<String> getFriendNames(){
+        ArrayList<String> temp = new ArrayList<String>();
+        Cursor cursor = model.query("friend",new String[]{"friendName"},"userId=?",new String[]{intId+""});
+        if(cursor.moveToFirst()){
+            for (int i = 0; i < cursor.getCount(); i++) {
+                temp.add(cursor.getString(cursor.getColumnIndex("friendName")));
+                cursor.moveToNext();
+            }
+        }
+        friendNames = temp;
+        return friendNames;
     }
 }

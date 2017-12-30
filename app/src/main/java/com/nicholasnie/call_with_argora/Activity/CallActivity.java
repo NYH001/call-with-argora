@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,9 @@ import com.nicholasnie.call_with_argora.Base.IView;
 import com.nicholasnie.call_with_argora.Presenter.CallPresenter;
 import com.nicholasnie.call_with_argora.R;
 import com.nicholasnie.call_with_argora.Service.AgoraService;
+import com.nicholasnie.call_with_argora.Service.NameAdapter;
+
+import java.util.List;
 
 /**
  * Created by NicholasNie on 2017/10/10.
@@ -26,15 +31,14 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
     private final String TAG = "NicholasNie";
     private final int AUDIO_REQUEST_CODE = 1;
     private final String roomName = "TestRoom";
-//    private String myId;
     private String peerId;
+    private List<String> friendNames;
+    private NameAdapter nameAdapter;
 
     private Button btnCall;
-//    private Button btnLogin;
     private Button btnLogout;
-//    private Button btnHangUp;
-//    private EditText etMyId;
     private EditText etPeerId;
+    private RecyclerView rvFriendName;
 
     @Override
     CallPresenter initPresenter() {
@@ -48,22 +52,10 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
 
     @Override
     void initView() {
-//        btnLogin = (Button) findViewById(R.id.btn_login);
         btnCall = (Button) findViewById(R.id.btn_test);
         btnLogout = (Button) findViewById(R.id.btn_logout);
-//        btnHangUp = (Button) findViewById(R.id.btn_hangUp);
-//        etMyId = (EditText) findViewById(R.id.et_myId);
         etPeerId = (EditText) findViewById(R.id.et_peerId);
-
-//        btnLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i(TAG,"Clicked!");
-//                myId = etMyId.getText().toString();
-////                basePresenter.loginOrOut(myId);
-//                basePresenter.login(myId);
-//            }
-//        });
+        rvFriendName = (RecyclerView) findViewById(R.id.rv_friendName);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,19 +69,14 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
             public void onClick(View v) {
 //                myId = etMyId.getText().toString();
                 peerId = etPeerId.getText().toString();
-//                basePresenter.call(peerId,roomName);
+                basePresenter.call(peerId,roomName);
                 ActivityManager activityManager = ActivityManager.getInstance();
                 activityManager.putExtra("peerName",peerId);
+                activityManager.putExtra("isHost",true);
                 activityManager.startActivity(getApplicationContext(),new ConversationActivity());
             }
         });
 
-//        btnHangUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                basePresenter.hangUp();
-//            }
-//        });
     }
 
     @Override
@@ -97,12 +84,17 @@ public class CallActivity extends BaseActivity<CallPresenter> implements IView {
         Intent intent = new Intent(this,AgoraService.class);
         bindService(intent,basePresenter.connection, Context.BIND_AUTO_CREATE);
 
+        friendNames = basePresenter.getFriendNames();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvFriendName.setLayoutManager(linearLayoutManager);
+        nameAdapter = new NameAdapter(this,friendNames);
+        rvFriendName.setAdapter(nameAdapter);
+        Log.i(TAG,"Name count:   " + nameAdapter.getItemCount());
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},AUDIO_REQUEST_CODE);
         }
-
-//        myId = basePresenter.getId();
-//        basePresenter.login(myId);
     }
 
     @Override
