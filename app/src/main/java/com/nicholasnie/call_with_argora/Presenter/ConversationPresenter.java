@@ -6,8 +6,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.nicholasnie.call_with_argora.Activity.ConversationActivity;
+import com.nicholasnie.call_with_argora.App.ActivityManager;
 import com.nicholasnie.call_with_argora.Base.IPresenter;
 import com.nicholasnie.call_with_argora.Base.IView;
+import com.nicholasnie.call_with_argora.Model.UserModel;
 import com.nicholasnie.call_with_argora.Service.AgoraService;
 
 /**
@@ -33,13 +35,21 @@ public class ConversationPresenter extends BasePresenter<ConversationActivity> i
         }
     };
 
-    public ConversationPresenter(IView view){
+    private String peerName;
+    private String roomName;
 
+    public ConversationPresenter(IView view){
+        mView = view;
+        mModel = UserModel.getInstance(view.getActivity().getApplicationContext());
+        initData();
     }
 
     @Override
     void initData() {
+        ActivityManager activityManager = ActivityManager.getInstance();
+        peerName = activityManager.getString("peerName");
 
+        roomName = "TestRoom";
     }
 
     public void answer(){
@@ -47,6 +57,18 @@ public class ConversationPresenter extends BasePresenter<ConversationActivity> i
     }
 
     public void reject(){
+
+    }
+
+    public void call(){
+
+    }
+
+    public void hangUp(){
+
+    }
+
+    public void handsFree(){
 
     }
 }

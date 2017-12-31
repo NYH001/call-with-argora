@@ -254,25 +254,6 @@ public class AgoraService extends Service {
     }
 
     private void doJoin(){
-//        myActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mAgoraAPI.channelJoin(channelId);
-//                String key = appID;
-//                if (enableMediaCertificate){
-//                    int ts = (int) (System.currentTimeMillis()/1000);
-//                    int r = new Random().nextInt();
-//                    long uid = myUid;
-//                    int expiredTs = 0;
-//                    try {
-//                        key = DynamicKey4.generateMediaChannelKey(appID, appCertificate, channelId, ts, r, uid, expiredTs);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                mRtcEngine.joinChannel(key, channelId, "", myUid);
-//            }
-//        });
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -295,13 +276,6 @@ public class AgoraService extends Service {
     }
 
     private void doLeave(){
-//        myActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mAgoraAPI.channelLeave(channelId);
-//                mRtcEngine.leaveChannel();
-//            }
-//        });
         new Thread(new Runnable() {
             @Override
             public void run() {

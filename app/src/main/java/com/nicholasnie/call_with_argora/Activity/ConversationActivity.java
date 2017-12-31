@@ -22,6 +22,7 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
 
     private final String TAG = "NicholasNie";
     private boolean isHost = false;
+    private boolean isCalling = false;
 
     private TextView tvPeerName;
     private Button btnAnswer;
@@ -32,6 +33,10 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
         Log.i(TAG,"setHost");
 //        setBtnAnswerText(b);
 //        setBtnRejectText(b);
+    }
+
+    public void setCalling(boolean b){
+        isCalling = b;
     }
 
     private void setBtnAnswerText(boolean b){
@@ -60,6 +65,8 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
     void onPrepare() {
         Intent intent = new Intent(this,AgoraService.class);
         bindService(intent,basePresenter.connection, Context.BIND_AUTO_CREATE);
+
+
     }
 
     @Override
@@ -75,17 +82,33 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
         setBtnRejectText(isHost);
         setBtnAnswerText(isHost);
 
+        if(isHost){
+            setCalling(true);
+        }
+
+        tvPeerName.setText(getPeerName());
+
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.answer();
+                if(isCalling){
+                    basePresenter.handsFree();
+                }else {
+                    basePresenter.answer();
+                    setBtnAnswerText(true);
+                    setCalling(true);
+                }
             }
         });
 
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.reject();
+                if(isCalling){
+                    basePresenter.hangUp();
+                }else {
+                    basePresenter.reject();
+                }
             }
         });
     }
@@ -98,6 +121,12 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
     @Override
     protected void onDestroy() {
         unbindService(basePresenter.connection);
+        Log.i(TAG,"ConversationActivity Destroyed");
         super.onDestroy();
+    }
+
+    public String getPeerName(){
+        ActivityManager activityManager = ActivityManager.getInstance();
+        return activityManager.getString("peerName");
     }
 }
