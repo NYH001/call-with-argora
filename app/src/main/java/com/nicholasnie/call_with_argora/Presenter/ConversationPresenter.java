@@ -65,7 +65,7 @@ public class ConversationPresenter extends BasePresenter<ConversationActivity> i
     }
 
     public void hangUp(){
-
+        mAgoraService.hangUp();
     }
 
     public void handsFree(){

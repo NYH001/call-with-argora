@@ -106,6 +106,7 @@ public class ConversationActivity extends BaseActivity<ConversationPresenter> im
             public void onClick(View v) {
                 if(isCalling){
                     basePresenter.hangUp();
+                    finish();
                 }else {
                     basePresenter.reject();
                 }

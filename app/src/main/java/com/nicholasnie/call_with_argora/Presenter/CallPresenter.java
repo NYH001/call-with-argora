@@ -43,6 +43,7 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mAgoraService = ((AgoraService.AgoraBinder) service).getService();
+            mAgoraService.setMyActivity(mView.getActivity());
             Log.i(TAG, "Service Connected!");
             login(myId);
         }
@@ -96,6 +97,9 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
     }
 
     public void call(String peerId, String channelId){
+
+        mAgoraService.call(peerId,channelId);
+
         for(int i = 0; i < friendNames.size(); i++){
             if( peerId.equals(friendNames.get(i))){
                 return;
@@ -106,8 +110,6 @@ public class CallPresenter extends BasePresenter<CallActivity> implements IPrese
         contentValues.put("userId",intId);
         contentValues.put("friendName",peerId);
         model.add("friend",contentValues);
-
- //       mAgoraService.call(peerId,channelId,mView.getActivity());
     }
 
     public void hangUp(){

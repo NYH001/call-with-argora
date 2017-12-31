@@ -2,11 +2,15 @@ package com.nicholasnie.call_with_argora.Service;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.nicholasnie.call_with_argora.Activity.ConversationActivity;
+import com.nicholasnie.call_with_argora.App.ActivityManager;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -72,10 +76,10 @@ public class AgoraService extends Service {
         mAgoraAPI.logout();
     }
 
-    public void call(String peerId, String channelId, Activity activity){
+    public void call(String peerId, String channelId){
         mAgoraAPI.channelInviteUser(channelId, peerId, 0);
         this.channelId = channelId;
-        this.myActivity = activity;
+//        this.myActivity = activity;
         doJoin();
     }
 
@@ -149,9 +153,17 @@ public class AgoraService extends Service {
                 super.onInviteReceived(channelID, account, uid, extra);
                 Log.i(TAG,"Invite Received");
                 mAgoraAPI.channelInviteAccept(channelID,account,0);
-//                mAgoraAPI.channelJoin(channelID);
                 channelId = channelID;
-                doJoin();
+
+
+
+                ActivityManager activityManager = ActivityManager.getInstance();
+                activityManager.putExtra("peerName",account);
+                activityManager.putExtra("isHost",false);
+                Context context = getApplicationContext();
+                ConversationActivity conversationActivity = new ConversationActivity();
+                activityManager.startActivity(getApplicationContext(),new ConversationActivity());
+//                doJoin();
             }
 
             @Override
@@ -283,6 +295,10 @@ public class AgoraService extends Service {
                 mRtcEngine.leaveChannel();
             }
         }).start();
+    }
+
+    public void setMyActivity(Activity activity){
+        myActivity = activity;
     }
 
 }

@@ -37,8 +37,11 @@ public class ActivityManager {
     }
 
     public void startActivity(Context context, Activity activity){
+        Log.i(TAG,"get into startActivity");
         Intent intent = new Intent(context,activity.getClass());
+        Log.i(TAG,"intent created");
         context.startActivity(intent);
+        Log.i(TAG,"activity started");
     }
 
     public void finishActivity(Activity activity){
